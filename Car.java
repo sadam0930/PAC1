@@ -44,11 +44,11 @@ public class Car {
 				if(response.equalsIgnoreCase("H")){
 					System.out.print("How far (negative value to move left)?");
 					response = imWatchingYou.next();
-					//do something
+					xcoordinate = moveRightOrToYourOtherRight(response, xcoordinate, ignition);
 				} else if(response.equalsIgnoreCase("V")){
 					System.out.print("How far (negative value to move up)?");
 					response = imWatchingYou.next();
-					//do something
+					ycoordinate = moveUpOrDown(response, ycoordinate, ignition);
 				} else {
 					System.out.println("Invalid command");
 				}
@@ -132,6 +132,57 @@ public class Car {
 		System.out.println("Color: " + whichColor(color));
 		System.out.println("Ignition: " + amIBurningFossilFuels(isItOn));
 		System.out.println("Location: (" + x + ", " + y + ")");
-		//do something
+		
+		for(int gridY = 1; gridY <= 20; gridY++){
+			for(int gridX = 1; gridX <= 20; gridX++){
+				if(x == gridX && y == gridY){
+					System.out.print(color);
+				} else {
+					System.out.print("-");
+				};
+			};
+			//end one row
+			System.out.println();
+		};
+	};
+
+	public static int moveUpOrDown(String distanceToMove, int currentY, boolean isTheCarEvenOn){
+		int newY;
+
+		if(isTheCarEvenOn){
+			//assume that the user's response was an integer and they're not actually drunk
+			int whereAreWeNow = currentY + Integer.parseInt(distanceToMove);
+			if(whereAreWeNow <= 20 && whereAreWeNow >= 1){
+				newY = whereAreWeNow;
+			} else {
+				System.out.println("Movement out of bounds.");
+				newY = currentY;
+			};
+		} else {
+			System.out.println("You have to turn the car on first. Go home. You're drunk.");
+			newY = currentY;
+		};
+
+		return newY;
+	};
+
+	public static int moveRightOrToYourOtherRight(String distanceToMove, int currentX, boolean isTheCarEvenOn){
+		int newX;
+
+		if(isTheCarEvenOn){
+			//assume that the user's response was an integer and they're not actually drunk
+			int whereAreWeNow = currentX + Integer.parseInt(distanceToMove);
+			if(whereAreWeNow <= 20 && whereAreWeNow >= 1){
+				newX = whereAreWeNow;
+			} else {
+				System.out.println("Movement out of bounds.");
+				newX = currentX;
+			};
+		} else {
+			System.out.println("You have to turn the car on first. Seriously, you should just take the bus.");
+			newX = currentX;
+		};
+
+		return newX;
 	};
 };
