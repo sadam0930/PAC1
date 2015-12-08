@@ -66,7 +66,7 @@ public class Converter {
 		return stackIsLower;
 	}
 
-	private boolean isOperator(char o){
+	public boolean isOperator(char o){
 		if(o == '+' || o == '-' || o == '*' || o == '/' || o == '^'){
 			return true;
 		} else {
