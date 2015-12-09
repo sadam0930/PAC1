@@ -8,13 +8,14 @@ import java.util.Stack;
 import java.util.Scanner;
 
 public class Calculator {
-	public static int evaluate(String expression) throws PostFixException {
-		double result =  = 0;
+	public static double evaluate(String expression) throws PostFixException {
+		double result =	 0;
 		
-		Stack<Integer> intStack = new Stack<Integer>();
+		Stack<Double> intStack = new Stack<Double>();
 
 		Converter converter = new Converter(expression);
 		String postfix = converter.toPostFix(); 
+		System.out.println("converted to postfix: " + postfix);
 		Scanner tokenizer = new Scanner(postfix);
 		
 		String operator;
@@ -22,7 +23,7 @@ public class Calculator {
 
 		while(tokenizer.hasNext()){
 			if(tokenizer.hasNextInt()){
-				int aNumber = tokenizer.nextInt();
+				double aNumber = tokenizer.nextInt();
 				intStack.push(aNumber);
 			} else {
 				operator = tokenizer.next();
@@ -47,40 +48,37 @@ public class Calculator {
 		}
 
 		//Obtain final result from stack
-		if(stack.empty()){
+		if(intStack.empty()){
 			throw new PostFixException("Not enough operands - stack underflow");
 		}
-		result = stack.pop();
+		result = intStack.pop();
 
 		//Stack should now be empty
-		if(!stack.empty()){
+		if(!intStack.empty()){
 			throw new PostFixException("Too many operands - operands left over");
 		}
 
 		return result;
 	}
 
-	private operate(String operator, double op1, double op2){
+	private static double operate(String operator, double op1, double op2){
 		switch(operator){
 			case "+":
 				return op1 + op2;
-				break;
 			case "-":
 				return op1 - op2;
-				break;
 			case "*":
 				return op1 * op2;
-				break;
 			case "/":
 				return op1 / op2;
-				break;
 			case "^":
 				return Math.pow(op1,op2);
-				break;
+			default:
+				return -1; //something messed up, this should never happen
 		}
 	}
 
-	private class PostFixException extends Exception {
+	private static class PostFixException extends Exception {
 		public PostFixException(String message){
 			super(message);
 		}
@@ -93,13 +91,14 @@ public class Calculator {
 		Scanner input = new Scanner(System.in);
 
 		do {
-			System.out.print("Enter an infix expression to be evaluated: ");
+			System.out.println("type your infix expression");
 			infix = input.nextLine();
-
+			System.out.println();
+			
 			try {
-				int result = evaluate(infix);
+				double result = evaluate(infix);
 				System.out.println();
-				System.out.println("Result = " + result);
+				System.out.println("answer is " + result);
 			} catch(PostFixException e){
 				System.out.println();
 				System.out.println("Error in expression - " + e.getMessage());
