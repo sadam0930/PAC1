@@ -78,7 +78,7 @@ public class Calculator {
 		}
 	}
 
-	private static class PostFixException extends Exception {
+	public static class PostFixException extends Exception {
 		public PostFixException(String message){
 			super(message);
 		}

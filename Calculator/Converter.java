@@ -13,7 +13,7 @@ public class Converter {
 		this.expression = expression;
 	}
 
-	public String toPostFix(){
+	public String toPostFix() throws Calculator.PostFixException{
 		Stack<Character> operatorStack = new Stack<Character>();
 		String output = "";
 
@@ -25,12 +25,16 @@ public class Converter {
 			} else if(token == '('){
 				operatorStack.push(token);
 			} else if(token == ')'){
-				while(operatorStack.peek() != '('){
+				while(!operatorStack.empty() && operatorStack.peek() != '('){
 					output += " ";
 					output += operatorStack.pop();
 				}
-				//throw away parenthesis
-				operatorStack.pop(); 
+				if(operatorStack.empty()){
+						throw new Calculator.PostFixException("Opening parenthesis not found - stack underflow");
+				} else {
+					//throw away parenthesis
+					operatorStack.pop(); 
+				}
 			} else if(isOperator(token)){
 					while(!operatorStack.empty() && !isLowerPrecedence(token, operatorStack.peek())) {
 						output += " ";
@@ -73,9 +77,4 @@ public class Converter {
 			return false;
 		}
 	}
-	
-	// public static void main(String[] args) {
-	// 	Converter c = new Converter("(4+8)*(6-5)/((3-2)*(2+2))");
-	// 	System.out.println(c.toPostFix());
-	// }
 }
