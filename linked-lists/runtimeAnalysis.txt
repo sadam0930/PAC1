@@ -1,0 +1,8 @@
+/**
+* PAC 1
+* Steven Adam
+**/
+
+Part 1: O(n) - linear
+Part 2: O(n) - linear
+Part 3: SlowMaxStack.getMaxSoFar() O(n) - linear
